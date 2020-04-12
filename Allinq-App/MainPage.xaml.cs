@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using DataModels;
 using ZXing.Net.Mobile.Forms;
 using AllinqApp.Managers;
+using AllinqApp;
 
 namespace Allinq_App
 {
@@ -33,7 +34,7 @@ namespace Allinq_App
             Haspels.Add(new Haspel
             {
                 Barcode = "Barcode",
-                IsInUse = true,
+                Status = Enums.EHaspelStatus.Unkown,
                 UsedBy = "User"
             });
 
@@ -73,30 +74,5 @@ namespace Allinq_App
 
         public ObservableCollection<Haspel> Haspels { get; set; } = new ObservableCollection<Haspel>();
 
-        private void Button_OnClicked(object sender, EventArgs e)
-        {
-            var scan = new PartialSannerPage();
-            Navigation.PushAsync(scan);
-
-            scan.OnScanResult += (o, scanResult) =>
-            {
-                Device.BeginInvokeOnMainThread(async () => await Navigation.PopAsync());
-                var currentHaspel = Haspels.FirstOrDefault(h => h.Barcode == scanResult.Barcode);
-                if (currentHaspel != null)
-                {
-                    currentHaspel.IsInUse = scanResult.IsInHouse;
-                    currentHaspel.UsedBy = scanResult.User;
-
-                    OnPropertyChanged(nameof(Haspels));
-                    return;
-                }
-                myApiManager.PostData(new[] { new Haspel
-                {
-                    Barcode = scanResult.Barcode,
-                    IsInUse = scanResult.IsInHouse,
-                    UsedBy = scanResult.User
-                }}).ConfigureAwait(true);
-            };
-        }
     }
 }

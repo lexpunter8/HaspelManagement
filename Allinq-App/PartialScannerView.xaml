@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms" xmlns:customcontrols="clr-namespace:AllinqApp.CustomControls"
+             x:Class="AllinqApp.PartialScannerView">
+    <ContentPage.Resources>
+        <x:Boolean x:Key="True">True</x:Boolean>
+        <x:Boolean x:Key="False">False</x:Boolean>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+            <forms:ZXingScannerView Grid.Row="0" x:Name="ScannerView" OnScanResult="HandleScanResult" IsScanning="True"></forms:ZXingScannerView>
+        <!-- new template -->
+        <Grid BackgroundColor="#CC000000" Grid.Row="0" IsVisible="{Binding Path=ShowPopup}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="6*"/>
+
+            </Grid.RowDefinitions>
+            <Label TextColor="Red" Text="{Binding ScanResult.Text}" Grid.Row="0"/>
+
+            <customcontrols:CheckButton Margin="20,0,20,0"
+                    BackgroundColor="#4f86c9"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HeightRequest="10"
+                    FontFamily="{StaticResource FontAwesomeSolid}"
+                    FontSize="Large"
+                    Text="&#xf2f6;" BorderWidth="5" 
+                    CheckBorderColor="Red">
+
+            </customcontrols:CheckButton>
+            <Button Margin="20,0,20,0"
+                    BackgroundColor="#4f86c9"
+                    Command="{Binding AcceptCommand}"
+                    CommandParameter="{StaticResource False}"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HeightRequest="10"
+                    FontFamily="{StaticResource FontAwesomeSolid}"
+                    FontSize="Large"
+                    Text="&#xf2f6;"/>
+            <Button Margin="20,0,20,0"
+                    BackgroundColor="#4f86c9"
+                    FontFamily="{StaticResource FontAwesomeSolid}"
+                    Command="{Binding AcceptCommand}"
+                    CommandParameter="{StaticResource True}"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="10"
+                    FontSize="Title"
+                    Text="&#xf2f5;"/>
+            <Picker ItemsSource="{Binding UserOptions}"
+                    SelectedItem="{Binding SelectedUserOptions}"
+                    BackgroundColor="#4f86c9"
+                    TextColor="#FF4081"
+                    Margin="20,40,20,0"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="2"/>
+            <Button Margin="20,40,20,0"
+                    BackgroundColor="#4f86c9"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="3"
+                    Text="Cancel"
+                    Command="{Binding CancelCommand}"/>
+        </Grid>
+
+        <!-- return template -->
+        <Grid x:Name="grid" Padding="50" BackgroundColor="#B3000000" Grid.Row="0" IsVisible="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+
+            </Grid.RowDefinitions>
+            <Label Text="barcode" TextColor="Red" Grid.Row="1"></Label>
+                <Button Margin="20,0,20,0" BackgroundColor="#4f86c9" Grid.Row="1" Grid.Column="0" HeightRequest="10" Text="In"/>
+                <Button Margin="20,0,20,0" BackgroundColor="#4f86c9" Grid.Row="1" Grid.Column="1" HeightRequest="10" Text="Out"/>
+
+                <Button Margin="20,40,20,0" BackgroundColor="#4f86c9" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Text="Cancel"/>
+        </Grid>
+    </Grid>
+</ContentPage>

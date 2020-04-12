@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using DataModels;
+using static DataModels.Enums;
 
 namespace AllinqManagementApi.Adapters
 {
@@ -27,7 +28,7 @@ namespace AllinqManagementApi.Adapters
                         {
                             Barcode = values[0] ?? "",
                             UsedBy = values[1] ?? "",
-                            IsInUse = ConvertStringToBool(values[2]),
+                            Status = ConvertStringToBool(values[2]),
                             Comment = values[3] ?? ""
                         });
                     }
@@ -39,9 +40,9 @@ namespace AllinqManagementApi.Adapters
                 
         }
 
-        private bool ConvertStringToBool(string v)
+        private EHaspelStatus ConvertStringToBool(string v)
         {
-            return v == "1" || v.ToLower() == "true";
+            return EHaspelStatus.Unkown;
         }
 
         public void WriteData(Haspel[] data)

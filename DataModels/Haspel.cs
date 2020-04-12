@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using static DataModels.Enums;
 
 namespace DataModels
 {
@@ -11,7 +12,7 @@ namespace DataModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         private string myBarcode;
-        private bool myIsInUse;
+        private EHaspelStatus myStatus;
         private string myUsedBy;
         private string myComment;
 
@@ -20,10 +21,10 @@ namespace DataModels
             get { return myBarcode; }
             set { myBarcode = value; OnPropertyChanged(nameof(Barcode)); }
         }
-        public bool IsInUse
+        public EHaspelStatus Status
         {
-            get { return myIsInUse; }
-            set { myIsInUse = value; OnPropertyChanged(nameof(IsInUse)); }
+            get { return myStatus; }
+            set { myStatus = value; OnPropertyChanged(nameof(Status)); }
         }
         public string UsedBy
         {
@@ -38,7 +39,7 @@ namespace DataModels
 
         public string ToCsvString()
         {
-            return $"{Barcode},{UsedBy},{IsInUse},{Comment}";
+            return $"{Barcode},{UsedBy},{Status},{Comment}";
         }
     }
 }
