@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AllinqManagementApi.Adapters;
+using AllinqManagementApi.Interfaces;
+using AllinqManagementApi.Services;
 using DataModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +33,9 @@ namespace AllinqManagementApi
 
             services.AddSingleton<IHostedService, BroadCastServiceWorker>();
 
-            services.AddScoped<IFileAdapter<Haspel>, CsvFileAdapter>();
+            services.AddSingleton<IFileService<Haspel>, CsvFileService>();
+
+            services.AddSingleton<IFileAdapter<Haspel>, CsvFileAdapter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

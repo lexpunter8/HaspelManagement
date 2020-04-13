@@ -23,14 +23,21 @@ namespace AllinqManagementApi.Adapters
                     string line;
                     while ((line = streamWriter.ReadLine()) != null)
                     {
-                        var values = line.Split(',');
-                        haspels.Add(new Haspel
+                        try
                         {
-                            Barcode = values[0] ?? "",
-                            UsedBy = values[1] ?? "",
-                            Status = ConvertStringToBool(values[2]),
-                            Comment = values[3] ?? ""
-                        });
+                            var values = line.Split(',');
+                            haspels.Add(new Haspel
+                            {
+                                Barcode = values[0] ?? "",
+                                UsedBy = values[1] ?? "",
+                                Status = ConvertStringToStatus(values[2]),
+                                Comment = values[3] ?? ""
+                            });
+
+                        } catch (Exception e)
+                        {
+                            // skip
+                        }
                     }
 
                     return haspels.ToArray();
@@ -40,9 +47,17 @@ namespace AllinqManagementApi.Adapters
                 
         }
 
-        private EHaspelStatus ConvertStringToBool(string v)
+        private EHaspelStatus ConvertStringToStatus(string v)
         {
-            return EHaspelStatus.Unkown;
+            switch (v.ToLower())
+            {
+                case "isused":
+                    return EHaspelStatus.IsUsed;
+                case "isnotused":
+                    return EHaspelStatus.IsNotUsed;
+                default:
+                    return EHaspelStatus.Unkown;
+            }
         }
 
         public void WriteData(Haspel[] data)

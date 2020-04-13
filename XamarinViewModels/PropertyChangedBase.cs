@@ -13,7 +13,7 @@ namespace XamarinViewModels
             OnPropertyChanged(string.Empty);
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XamarinViewModels;
 using ZXing;
 using ZXing.Net.Mobile.Forms;
 
@@ -21,7 +22,10 @@ namespace Allinq
 
         public void Handle_OnScanResult(Result result)
         {
-            Device.BeginInvokeOnMainThread(async () => { await DisplayAlert("Scanned Result", result.Text, "OK"); });
+
+            var dataContext = (PartialScannerPageViewModel)BindingContext;
+            dataContext.HandleScanResult(result);
+            //Device.BeginInvokeOnMainThread(async () => { await DisplayAlert("Scanned Result", result.Text, "OK"); });
         }
 
         protected override void OnAppearing()

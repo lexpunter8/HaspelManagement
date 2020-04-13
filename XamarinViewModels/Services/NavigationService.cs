@@ -105,6 +105,15 @@ namespace XamarinViewModels
             Device.BeginInvokeOnMainThread(async () => await Navigator.PushAsync(page));
         }
 
+        public async Task NavigatoToAndRemove(ViewModelBase navigatTo, ViewModelBase current)
+        {
+            await NavigateTo(navigatTo);
+
+            var s = _viewLocator.FindPageForViewModel(current.GetType());
+            //await Navigator.RemovePage(s);
+
+        }
+
         public async Task NavigateBack()
         {
             var dismissing = Navigator.NavigationStack.Last().BindingContext as ViewModelBase;

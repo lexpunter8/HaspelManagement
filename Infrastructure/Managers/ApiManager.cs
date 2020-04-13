@@ -20,6 +20,7 @@ namespace AllinqApp.Managers
         private int myPortNumber;
         private IPEndPoint myApiEndPoint;
         private bool myIsConnected;
+        private string myEndPoint => $"http://{myApiEndPoint.Address}:{myApiEndPoint.Port}/api/haspel";
 
         public ApiManager()
         {
@@ -57,7 +58,6 @@ namespace AllinqApp.Managers
             var response = await client.PostAsync(url, data);
 
             string result = response.Content.ReadAsStringAsync().Result;
-            Console.WriteLine(result);
 
             client.Dispose();
         }
@@ -108,6 +108,20 @@ namespace AllinqApp.Managers
                 
                 client.Close();
             }
+        }
+
+        public async Task PostData(Haspel haspel)
+        {
+            var json = JsonConvert.SerializeObject(haspel);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var client = new HttpClient();
+
+            var response = await client.PostAsync(myEndPoint, data);
+
+            string result = response.Content.ReadAsStringAsync().Result;
+
+            client.Dispose();
         }
     }
 }

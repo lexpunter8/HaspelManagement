@@ -39,7 +39,8 @@ namespace Allinq_App
             var viewLocator = new ViewLocator();
 
             viewLocator.AddMapping<MainViewModel, MainView>();
-            viewLocator.AddMapping<PartialScannerPageViewModel, PartialScannerView>();
+            viewLocator.AddMapping<PartialScannerPageViewModel, FullScreenScanning>();
+            viewLocator.AddMapping<ScannerResultHandlerViewModel, ScannerResultHandlerView>();
 
             var navigationService = new NavigationService(this, viewLocator);
             var mainViewModel = new MainViewModel(navigationService, new ApiManager());

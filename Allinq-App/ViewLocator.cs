@@ -20,22 +20,12 @@ namespace XamarinViewModels
             return page;
         }
 
-        protected virtual Type FindPageForViewModel(Type viewModelType)
+        public virtual Type FindPageForViewModel(Type viewModelType)
         {
             var retval = myMappings.FirstOrDefault(m => m.Key == viewModelType);
             var retval1 = myMappings.FirstOrDefault();
 
             return retval.Value;
-             
-            var pageTypeName = viewModelType
-                .AssemblyQualifiedName
-                .Replace("ViewModel", "View");
-
-            var pageType = Type.GetType(pageTypeName);
-            if (pageType == null)
-                throw new ArgumentException(pageTypeName + " type does not exist");
-
-            return pageType;
         }
 
         public void AddMapping<TViewModel, TView>()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AllinqManagementApi.Adapters;
+using AllinqManagementApi.Interfaces;
 using DataModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,34 +14,40 @@ namespace AllinqManagementApi.Controllers
     [Route("api/[controller]")]
     public class HaspelController : Controller
     {
-        public IFileAdapter<Haspel> FileAdapter { get; }
+        public IFileService<Haspel> myFileService { get; }
 
-        public HaspelController(IFileAdapter<Haspel> fileAdapter)
+        public HaspelController(IFileService<Haspel> fileService)
         {
-            FileAdapter = fileAdapter;
+            myFileService = fileService;
         }
 
         // GET: api/values
         [HttpGet]
         public IEnumerable<Haspel> Get()
         {
-            return FileAdapter.GetData();
+            return myFileService.GetAllData();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(string id)
         {
-            return "value";
+            var result = myFileService.GetByBarcode(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]Haspel[] value)
+        public void Post([FromBody]Haspel value)
         {
-            FileAdapter.WriteData(value);
+            myFileService.Update(value);
         }
-
+        
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)

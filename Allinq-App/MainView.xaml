@@ -7,6 +7,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Button BackgroundColor="Red" Command="{Binding ScanCommand}" Grid.Row="0" Text="Scan"/>
         <ListView Grid.Row="1" ItemsSource="{Binding Path=Haspels}">
@@ -42,6 +43,15 @@
                     
                     </ViewCell>
                         
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView Grid.Row="3" ItemsSource="{Binding NavigationItems}" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label>Text</Label>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace XamarinViewModels
 {
@@ -28,16 +29,19 @@ namespace XamarinViewModels
 
             Haspels.CollectionChanged += Haspels_CollectionChanged;
 
-            myApiManager.Initialized += (a, s) => SetHaspels(myApiManager.GetData().Result);
+            myApiManager.Initialized += (a, s) => SetHaspels();
             myApiManager.Initialize();
 
             ScanCommand = new Command(ScanCommandExecute);
         }
 
         public ICommand ScanCommand { get; set; }
+        public string SelectedNavigationItem { get; set; }
+        public List<string> NavigationItems { get; set; } = new List<string> { "", "", "" };
 
-        public void SetHaspels(Haspel[] haspels)
+        public async void SetHaspels()
         {
+            Haspel[] haspels = await myApiManager.GetData();
             Haspels.Clear();
             foreach (Haspel h in haspels)
             {
@@ -50,12 +54,20 @@ namespace XamarinViewModels
             if (e.OldItems != null)
             {
                 foreach (INotifyPropertyChanged item in e.OldItems)
+                {
+                    if (item == null)
+                        continue;
                     item.PropertyChanged -= item_PropertyChanged;
+                }
             }
             if (e.NewItems != null)
             {
                 foreach (INotifyPropertyChanged item in e.NewItems)
+                {
+                    if (item == null)
+                        continue;
                     item.PropertyChanged += item_PropertyChanged;
+                }
             }
         }
 
@@ -68,27 +80,19 @@ namespace XamarinViewModels
 
         private void ScanCommandExecute()
         {
-            var scanner = new PartialScannerPageViewModel();
+            var scanner = new PartialScannerPageViewModel(myNavigationService);
             myNavigationService.NavigateTo(scanner);
 
-            scanner.OnScanResult += (o, scanResult) =>
+            scanner.OnScanResult += async (o, scanResult) =>
             {
-                myNavigationService.NavigateBack();
-                var currentHaspel = Haspels.FirstOrDefault(h => h.Barcode == scanResult.Barcode);
-                if (currentHaspel != null)
-                {
-                    currentHaspel.Status = scanResult.Status;
-                    currentHaspel.UsedBy = scanResult.User;
-
-                    OnPropertyChanged(nameof(Haspels));
-                    return;
-                }
-                myApiManager.PostData(new[] { new Haspel
+                await myApiManager.PostData(new Haspel
                 {
                     Barcode = scanResult.Barcode,
                     Status = scanResult.Status,
                     UsedBy = scanResult.User
-                }}).ConfigureAwait(true);
+                });
+
+                SetHaspels();
             };
         }
     }
