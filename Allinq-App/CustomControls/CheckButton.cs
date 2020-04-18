@@ -40,6 +40,26 @@ namespace AllinqApp.CustomControls
         }
     }
 
+    public class TextCheckbutton : CheckButton
+    {
+        protected override void IsCheckedChanged()
+        {
+            if (!CanBeChecked)
+            {
+                TextColor = DefaultTextColor;
+                return;
+            }
+            if (IsChecked)
+            {
+                TextColor = CheckBorderColor;
+                return;
+            }
+            TextColor = DefaultTextColor;
+        }
+        public Color DefaultTextColor { get; set; }
+        public bool CanBeChecked { get; set; } = true;
+    }
+
     public class CheckButton : Button
     {
         public static readonly BindableProperty IsCheckedProperty =
@@ -59,7 +79,7 @@ namespace AllinqApp.CustomControls
             }
         }
 
-        private void IsCheckedChanged()
+        protected virtual void IsCheckedChanged()
         {
             if (IsChecked)
             {

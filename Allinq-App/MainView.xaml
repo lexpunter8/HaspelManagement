@@ -1,16 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:customcontrols="clr-namespace:AllinqApp.CustomControls"
              x:Class="AllinqApp.MainView">
-    <Grid>
+    <Grid BackgroundColor="#282828">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="56"/>
         </Grid.RowDefinitions>
-        <Button BackgroundColor="Red" Command="{Binding ScanCommand}" Grid.Row="0" Text="Scan"/>
-        <ListView Grid.Row="1" ItemsSource="{Binding Path=Haspels}">
+        <ListView Grid.Row="0" ItemsSource="{Binding Path=Haspels}">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -22,11 +20,11 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="{Binding Barcode}"></Label>
-                            <Label Grid.Column="1" Text="{Binding UsedBy}"></Label>
-                            <Label Grid.Column="2" Text="{Binding Comment}"></Label>
+                            <Label TextColor="White" Grid.Column="0" Text="{Binding Barcode}"></Label>
+                            <Label TextColor="White" Grid.Column="1" Text="{Binding UsedBy}"></Label>
+                            <Label TextColor="White" Grid.Column="2" Text="{Binding Comment}"></Label>
                             
-                            <Label Grid.Column="3">
+                            <Label TextColor="White" Grid.Column="3">
                                 <Label.Style>
                                     <Style TargetType="Label">
                                         
@@ -46,14 +44,65 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ListView Grid.Row="3" ItemsSource="{Binding NavigationItems}" >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Label>Text</Label>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout Grid.Row="2">
+            <Frame Padding="0" BorderColor="Black" HasShadow="True">
+                <customcontrols:CheckButtonGroup
+                    HeightRequest="56" BackgroundColor="#1d1d1d">
+                    <customcontrols:CheckButtonGroup.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </customcontrols:CheckButtonGroup.ColumnDefinitions>
+                    <customcontrols:CheckButtonGroup.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </customcontrols:CheckButtonGroup.RowDefinitions>
+                    <customcontrols:TextCheckbutton
+                        IsChecked="True"
+                        Margin="0,0,0,0"
+                        BackgroundColor="#1d1d1d"
+                        TextColor="White"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HeightRequest="10"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="24"
+                        Text="&#xf039;" 
+                        CornerRadius="2"
+                        DefaultTextColor="White"
+                        CheckBorderColor="#4f86c9"/>
+                    <customcontrols:TextCheckbutton
+                        Margin="0,0,0,0"
+                        BackgroundColor="#1d1d1d"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Command="{Binding ScanCommand}"
+                        HeightRequest="10"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="24"
+                        TextColor="White"
+                        Text="&#xf030;"
+                        CanBeChecked="False"
+                        DefaultTextColor="White"
+                        CornerRadius="2"
+                        CheckBorderColor="#4f86c9"
+                        />
+                    <customcontrols:TextCheckbutton
+                        Margin="0,0,0,0"
+                        BackgroundColor="#1d1d1d"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        HeightRequest="40"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        FontSize="24"
+                        DefaultTextColor="White"
+                        TextColor="White"
+                        Text="&#xf0c0;" 
+                        CheckBorderColor="#4f86c9"
+                        CornerRadius="50">
+                    </customcontrols:TextCheckbutton>
+                </customcontrols:CheckButtonGroup>
+            </Frame>
+            
+        </StackLayout>
     </Grid>
 </ContentPage>

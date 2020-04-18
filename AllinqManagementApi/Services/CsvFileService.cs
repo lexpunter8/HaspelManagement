@@ -12,11 +12,15 @@ namespace AllinqManagementApi.Services
         private IFileAdapter<Haspel> myHaspelFileAdapter;
         private List<Haspel> myHaspels = new List<Haspel>();
 
+        private EventHandler HaspelsChanged;
+
         public CsvFileService(IFileAdapter<Haspel> fileAdapter)
         {
             myHaspelFileAdapter = fileAdapter;
 
             myHaspels.AddRange(myHaspelFileAdapter.GetData());
+
+            HaspelsChanged += async (s, e) => await myHaspelFileAdapter.WriteData(myHaspels.ToArray());
         }
 
         public Haspel[] GetAllData()
@@ -35,7 +39,6 @@ namespace AllinqManagementApi.Services
             {
                 return;
             }
-
             if (myHaspels == null)
             {
                 Console.Write("");
@@ -45,12 +48,15 @@ namespace AllinqManagementApi.Services
             if (existingHaspel == null)
             {
                 myHaspels.Add(data);
+                HaspelsChanged?.Invoke(this, new EventArgs());
                 return;
             }
 
             existingHaspel.Comment = data.Comment;
             existingHaspel.Status = data.Status;
             existingHaspel.UsedBy = data.UsedBy;
+
+            HaspelsChanged?.Invoke(this, new EventArgs());
         }
 
         public void InsertData(Haspel[] data)

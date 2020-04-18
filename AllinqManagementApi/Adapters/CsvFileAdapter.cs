@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using DataModels;
 using static DataModels.Enums;
 
@@ -19,6 +20,7 @@ namespace AllinqManagementApi.Adapters
             {
                 using (StreamReader streamWriter = new StreamReader(fs))
                 {
+                    streamWriter.ReadLine();
                     List<Haspel> haspels = new List<Haspel>();
                     string line;
                     while ((line = streamWriter.ReadLine()) != null)
@@ -60,25 +62,28 @@ namespace AllinqManagementApi.Adapters
             }
         }
 
-        public void WriteData(Haspel[] data)
+        public async Task WriteData(Haspel[] data)
         {
-            using (FileStream fs = File.OpenWrite(myFile))
+            await Task.Run(() =>
             {
-
-                using (StreamWriter sw = new StreamWriter(fs))
+                using (FileStream fs = File.OpenWrite(myFile))
                 {
-                    sw.WriteLine($"Barcode,In gebruik door, In gebruik, Opmerking");
-                    foreach (Haspel h in data)
+
+                    using (StreamWriter sw = new StreamWriter(fs))
                     {
-                        sw.WriteLine(h.ToCsvString());
+                        sw.WriteLine($"Barcode,In gebruik door, In gebruik, Opmerking");
+                        foreach (Haspel h in data)
+                        {
+                            sw.WriteLine(h.ToCsvString());
+                        }
                     }
                 }
-            }
+            });
         }
     }
     public interface IFileAdapter<T>
     {
         T[] GetData();
-        void WriteData(T[] data);
+        Task WriteData(T[] data);
     }
 }
