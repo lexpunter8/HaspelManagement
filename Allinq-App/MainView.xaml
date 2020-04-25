@@ -2,11 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:customcontrols="clr-namespace:AllinqApp.CustomControls"
              x:Class="AllinqApp.MainView">
-    <Grid BackgroundColor="#282828">
+    <Grid BackgroundColor="#CC000000">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="56"/>
+            <!--<RowDefinition Height="56"/>-->
         </Grid.RowDefinitions>
         <ListView Grid.Row="0" ItemsSource="{Binding Path=Haspels}">
 
@@ -44,7 +44,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackLayout Grid.Row="2">
+        <!--<StackLayout Grid.Row="2">
             <Frame Padding="0" BorderColor="Black" HasShadow="True">
                 <customcontrols:CheckButtonGroup
                     HeightRequest="56" BackgroundColor="#1d1d1d">
@@ -103,6 +103,6 @@
                 </customcontrols:CheckButtonGroup>
             </Frame>
             
-        </StackLayout>
+        </StackLayout>-->
     </Grid>
 </ContentPage>

@@ -29,7 +29,7 @@ namespace XamarinViewModels
         }
 
         public void AddMapping<TViewModel, TView>()
-            where TViewModel : ViewModelBase where TView : ContentPage
+            where TViewModel : ViewModelBase where TView : Page
         {
             myMappings.Add(typeof(TViewModel), typeof(TView));
         } 

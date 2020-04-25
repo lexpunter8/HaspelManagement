@@ -30,9 +30,8 @@ namespace Allinq
 
         protected override void OnAppearing()
         {
-            base.OnAppearing();
-
             IsScanning = true;
+            base.OnAppearing();
         }
 
         protected override void OnDisappearing()

@@ -67,6 +67,8 @@ namespace XamarinViewModels
             }
         }
 
+        
+
         private IEnumerable<ViewModelBase> FindViewModelsToDismiss(Page dismissingPage)
         {
             var viewmodels = new List<ViewModelBase>();

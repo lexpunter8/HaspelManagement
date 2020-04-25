@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TabbedPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AllinqApp.MainWindowPage"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:local="clr-namespace:AllinqApp"
+    android:TabbedPage.ToolbarPlacement="Bottom"
+    SelectedItem="{Binding SelectedTab}"
+    BarBackgroundColor="#1d1d1d"
+    BarTextColor="White"
+    UnselectedTabColor="White"
+    SelectedTabColor="#4f86c9" CurrentPageChanged="TabbedPage_CurrentPageChanged">
+    <local:MainView Title="Details" IconImageSource="infoicon.png" BindingContext="{Binding MainViewModel}"/>
+    <local:PartialScannerView BindingContext="{Binding ScannerViewModel}" Title="Scan" IconImageSource="unnamed.png"/>
+
+</TabbedPage>
