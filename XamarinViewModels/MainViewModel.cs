@@ -26,6 +26,12 @@ namespace XamarinViewModels
                 Status = Enums.EHaspelStatus.Unkown,
                 UsedBy = "User"
             });
+            Haspels.Add(new Haspel
+            {
+                Barcode = "Barcode",
+                Status = Enums.EHaspelStatus.Unkown,
+                UsedBy = "User"
+            });
 
             Haspels.CollectionChanged += Haspels_CollectionChanged;
 
@@ -80,7 +86,7 @@ namespace XamarinViewModels
 
         private void ScanCommandExecute()
         {
-            var scanner = new PartialScannerPageViewModel(myNavigationService);
+            var scanner = new PartialScannerPageViewModel(myNavigationService, myApiManager);
             myNavigationService.NavigateTo(scanner);
 
             scanner.OnScanResult += async (o, scanResult) =>

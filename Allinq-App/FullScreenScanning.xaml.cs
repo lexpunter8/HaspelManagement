@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms.Xaml;
 using XamarinViewModels;
 using ZXing;
 using ZXing.Net.Mobile.Forms;
@@ -22,7 +15,6 @@ namespace Allinq
 
         public void Handle_OnScanResult(Result result)
         {
-
             var dataContext = (PartialScannerPageViewModel)BindingContext;
             dataContext.HandleScanResult(result);
             //Device.BeginInvokeOnMainThread(async () => { await DisplayAlert("Scanned Result", result.Text, "OK"); });
@@ -31,13 +23,13 @@ namespace Allinq
         protected override void OnAppearing()
         {
             IsScanning = true;
+            IsAnalyzing = true;
             base.OnAppearing();
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            IsScanning = false;
         }
     }
 }

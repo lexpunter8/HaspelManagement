@@ -4,22 +4,43 @@
              xmlns:customcontrols="clr-namespace:AllinqApp.CustomControls"
              x:Class="AllinqApp.ScannerResultHandlerView">
     <Grid x:Name="popup" BackgroundColor="#CC000000" Grid.Row="0" IsVisible="true">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="6*"/>
-                    <RowDefinition Height="4*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="6*"/>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Column="0" Grid.Row="0">
+                <Label Margin="0,10,0,10" FontSize="Title" TextColor="White" HorizontalTextAlignment="Center" Text="{Binding Barcode}"/>
+                <customcontrols:IconTextLabel Icon="&#xf007;" Text="{Binding ScannedHaspel.Status}"/>
+                <customcontrols:IconTextLabel Icon="&#xf129;" Text="{Binding ScannedHaspel.UsedBy}"/>
+
+            </StackLayout>
+            
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
 
             </Grid.RowDefinitions>
-            <Label TextColor="Red" Text="{Binding ScanResult.Text}" Grid.Row="0"/>
-
-            <customcontrols:CheckButtonGroup 
-                    Grid.Row="1" Grid.ColumnSpan="2"
+                <customcontrols:CheckButtonGroup 
+                    Grid.Row="0" Grid.ColumnSpan="2"
                     Grid.Column="0">
                 <customcontrols:CheckButton
                     x:Name="inButton"
@@ -35,16 +56,16 @@
                     IsChecked="{Binding InButtonChecked, Mode=TwoWay}"
                     Text="&#xf2f6;" BorderWidth="1"  CornerRadius="20"
                     CheckBorderColor="White"/>
-            <customcontrols:CheckButton
-                x:Name="outButton"
+                <customcontrols:CheckButton
+                    x:Name="outButton"
                     Margin="20,0,20,0"
-                TextColor="White"
+                    TextColor="White"
                     BackgroundColor="#4f86c9"
                     FontFamily="{StaticResource FontAwesomeSolid}"
                     Grid.Row="0"
                     Grid.Column="1"
                     HeightRequest="10"
-                CornerRadius="20"
+                    CornerRadius="20"
                     FontSize="Title"
                     CheckBorderColor="White"
                     BorderWidth="1"
@@ -59,7 +80,7 @@
                     TextColor="#FF4081"
                     Margin="20,40,20,0"
                     Grid.ColumnSpan="2"
-                    Grid.Row="2"/>
+                    Grid.Row="1"/>
             <Button Margin="20,40,20,0"
                     BackgroundColor="Transparent"
                     TextColor="White"
@@ -67,10 +88,10 @@
                     BorderWidth="1"
                     CornerRadius="20"
                     Grid.Column="0"
-                    Grid.Row="3"
+                    Grid.Row="2"
                     Text="Cancel"
                     Command="{Binding CancelCommand}"/>
-            <Button Grid.Row="3" Grid.Column="1"
+            <Button Grid.Row="2" Grid.Column="1"
                     Margin="20,40,20,0"
                     FontFamily="{StaticResource FontAwesomeSolid}"
                     Text="&#xf00c;"
@@ -79,4 +100,6 @@
                     TextColor="Black" CornerRadius="20"
                     BackgroundColor="#4f86c9"/>
         </Grid>
+        
+    </Grid>
 </ContentPage>

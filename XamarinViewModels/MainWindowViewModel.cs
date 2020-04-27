@@ -16,11 +16,6 @@ namespace XamarinViewModels
             PropertyChanged += MainWindowViewModel_PropertyChanged;
         }
 
-        public async void NavigateToScannerPage()
-        {
-            await myNavigationService.NavigateTo(ScannerViewModel);
-        }
-
         private void MainWindowViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             //if (e.PropertyName == nameof(SelectedTab))
@@ -33,10 +28,6 @@ namespace XamarinViewModels
         public MainViewModel MainViewModel { get; set; }
         public PartialScannerPageViewModel ScannerViewModel { get; set; }
 
-        public void ScannerViewLeft()
-        {
-            ScannerViewModel = new PartialScannerPageViewModel(myNavigationService);
-        }
         //public List<ViewModelBase> NavigationViewModels { get; set; }
         //public ObservableCollection<Page> Tabs { get; set; } = new ObservableCollection<Page>();
 

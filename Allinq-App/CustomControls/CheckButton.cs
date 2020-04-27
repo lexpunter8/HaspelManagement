@@ -92,4 +92,29 @@ namespace AllinqApp.CustomControls
         public Color CheckBorderColor { get; set; }
 
     }
+
+    public class IconTextBox : StackLayout
+    {
+        public string Icon { get; set; }
+        public string IconFontFamily { get; set; }
+
+        public string Text { get; set; }
+        public string FontFamily { get; set; }
+
+        public IconTextBox()
+        {
+            var iconLabel = new Label();
+            iconLabel.Text = Icon;
+            iconLabel.FontFamily = IconFontFamily;
+            iconLabel.TextColor = Color.DarkRed;
+
+            var textLabel = new Label();
+            textLabel.Text = Text;
+            textLabel.FontFamily = FontFamily;
+            textLabel.TextColor = Color.DarkRed;
+
+            Children.Add(iconLabel);
+            Children.Add(textLabel);
+        }
+    }
 }

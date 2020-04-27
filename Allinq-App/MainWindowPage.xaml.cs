@@ -21,7 +21,7 @@ namespace AllinqApp
             MainWindowPage s = sender as MainWindowPage;
             if (myPreviousPage?.GetType() == typeof(PartialScannerView))
             {
-                dataContext.ScannerViewLeft();
+                //dataContext.ScannerViewLeft();
             }
             myPreviousPage = CurrentPage;
         }

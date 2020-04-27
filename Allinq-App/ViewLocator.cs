@@ -11,13 +11,22 @@ namespace XamarinViewModels
         private Dictionary<Type, Type> myMappings = new Dictionary<Type, Type>();
         public Page CreateAndBindPageFor<TViewModel>(TViewModel viewModel) where TViewModel : ViewModelBase
         {
-            var pageType = FindPageForViewModel(viewModel.GetType());
+            try
+            {
 
-            var page = (Page)Activator.CreateInstance(pageType);
+                var pageType = FindPageForViewModel(viewModel.GetType());
 
-            page.BindingContext = viewModel;
+                var page = (Page)Activator.CreateInstance(pageType);
 
-            return page;
+                page.BindingContext = viewModel;
+
+                return page;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
         }
 
         public virtual Type FindPageForViewModel(Type viewModelType)

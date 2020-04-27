@@ -26,6 +26,25 @@ namespace AllinqApp.Managers
         {
         }
 
+        public async Task<Haspel> GetHaspelByBarcode(string barcode)
+        {
+            if (!myIsConnected)
+            {
+                return new Haspel
+                {
+                    Barcode = "Not found",
+                    UsedBy = "Not Found"
+                };
+            }
+            string getBarcodeUrl = $"{myEndPoint}/{barcode}";
+            Uri url = new Uri(getBarcodeUrl);
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+            Haspel result = JsonConvert.DeserializeObject<Haspel>(await response.Content.ReadAsStringAsync());
+
+            return result;
+        }
+
         public async Task<Haspel[]> GetData()
         {
             var httpClient = new HttpClient();
@@ -68,21 +87,28 @@ namespace AllinqApp.Managers
         }
         private void ReicevedCalBack(IAsyncResult result)
         {
-            UdpClient u = ((UdpState)result.AsyncState).u;
-            IPEndPoint e = ((UdpState)result.AsyncState).e;
-
-            byte[] receiveBytes = u.EndReceive(result, ref e);
-            string receiveString = Encoding.ASCII.GetString(receiveBytes);
-
-            bool parsed = int.TryParse(receiveString, out int portNumber);
-
-            if (parsed)
+            try
             {
-                myPortNumber = portNumber;
-                myApiEndPoint = e;
-                myApiEndPoint.Port = myPortNumber;
-                myIsConnected = true;
-                Initialized?.Invoke(this, new EventArgs());
+
+                UdpClient u = ((UdpState)result.AsyncState).u;
+                IPEndPoint e = ((UdpState)result.AsyncState).e;
+
+                byte[] receiveBytes = u.EndReceive(result, ref e);
+                string receiveString = Encoding.ASCII.GetString(receiveBytes);
+
+                bool parsed = int.TryParse(receiveString, out int portNumber);
+
+                if (parsed)
+                {
+                    myPortNumber = portNumber;
+                    myApiEndPoint = e;
+                    myApiEndPoint.Port = myPortNumber;
+                    myIsConnected = true;
+                    Initialized?.Invoke(this, new EventArgs());
+                }
+            } catch (Exception e)
+            {
+                //
             }
         }
         private async Task DoBroadCast()

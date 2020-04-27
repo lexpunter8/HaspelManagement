@@ -37,6 +37,7 @@ namespace Allinq_App
             // mainPage.Children.Add(new FullScreenScanning());
             mainPage.Children.Add(myScannerPage);
             mainPage.Children.Add(myDetailsView);
+            myApiManager = new ApiManager();
 
             var viewLocator = new ViewLocator();
 
@@ -46,10 +47,10 @@ namespace Allinq_App
             viewLocator.AddMapping<ScannerResultHandlerViewModel, ScannerResultHandlerView>();
 
             var navigationService = new NavigationService(this, viewLocator);
-            var mainViewModel = new MainViewModel(navigationService, new ApiManager());
+            var mainViewModel = new MainViewModel(navigationService, myApiManager);
 
             var main = new MainWindowViewModel(navigationService);
-            main.ScannerViewModel = new PartialScannerPageViewModel(navigationService);
+            main.ScannerViewModel = new PartialScannerPageViewModel(navigationService, myApiManager);
             main.MainViewModel = mainViewModel;
 
             //var tabbed = new MainWindowPage();

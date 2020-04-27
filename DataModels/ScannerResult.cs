@@ -16,8 +16,9 @@ namespace DataModels
         public enum EHaspelStatus
         {
             Unkown,
+            Full,
             IsUsed,
-            IsNotUsed
+            Empty
         }
     }
 }

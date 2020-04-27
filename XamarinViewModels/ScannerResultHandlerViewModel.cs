@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using AllinqApp.Managers;
 using DataModels;
 using Xamarin.Forms;
 using XamarinViewModels.Interfaces;
@@ -11,9 +12,10 @@ namespace XamarinViewModels
 {
     public class ScannerResultHandlerViewModel : ViewModelBase
     {
-        public ScannerResultHandlerViewModel(INavigationService navigationService, Result scannerResult)
+        public ScannerResultHandlerViewModel(INavigationService navigationService, Result scannerResult, ApiManager apiManager)
         {
-            ScanResult = scannerResult;
+            myApiManager = apiManager;
+            HandleScanResult(scannerResult);
             InButtonClickedCommand = new Command(InButtonClickedExecute);
             CancelCommand = new Command(CancelButtonExecute);
             CompleteCommand = new Command(CompleteScan);
@@ -30,16 +32,33 @@ namespace XamarinViewModels
         public ICommand CompleteCommand { get; set; }
         public ICommand ScanCommand { get; set; }
 
+        private ApiManager myApiManager;
+
         private Result ScanResult { get; set; }
         public string SelectedUserOptions { get; set; }
         public List<string> UserOptions { get; set; }
+        public Haspel ScannedHaspel { get; set; }
+        public string Barcode { get; set; }
 
-        public void HandleScanResult(Result result)
+        public async void HandleScanResult(Result result)
         {
-            ScanResult = result;
-            OnPropertyChanged(nameof(ScanResult));
+            try
+            {
 
-            OnPropertyChanged(nameof(ScanResult.Text));
+                ScanResult = result;
+                Barcode = ScanResult.Text;
+                OnPropertyChanged(nameof(ScanResult));
+                OnPropertyChanged(nameof(Barcode));
+
+                OnPropertyChanged(nameof(ScanResult.Text));
+
+                ScannedHaspel = await myApiManager.GetHaspelByBarcode(result.Text);
+                OnPropertyChanged(nameof(ScannedHaspel));
+            }
+            catch (Exception e)
+            {
+                //
+            }
         }
 
         public EventHandler<ScannerResult> OnScanResult;
@@ -60,7 +79,7 @@ namespace XamarinViewModels
 
         private async void CompleteScan()
         {
-            var status = OutButtonChecked ? EHaspelStatus.IsUsed : EHaspelStatus.IsNotUsed;
+            var status = OutButtonChecked ? EHaspelStatus.IsUsed : EHaspelStatus.Empty;
             OnScanResult?.Invoke(this, new ScannerResult
             {
                 Barcode = ScanResult.Text,
