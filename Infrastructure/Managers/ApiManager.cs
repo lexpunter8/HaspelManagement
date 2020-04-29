@@ -28,29 +28,57 @@ namespace AllinqApp.Managers
 
         public async Task<Haspel> GetHaspelByBarcode(string barcode)
         {
-            if (!myIsConnected)
+            try
             {
+
+                if (!myIsConnected)
+                {
+                    return new Haspel
+                    {
+                        Barcode = "Not found",
+                        UsedBy = "-",
+                        Status = Enums.EHaspelStatus.Unkown
+                    };
+                }
+                string getBarcodeUrl = $"{myEndPoint}/{barcode}";
+                Uri url = new Uri(getBarcodeUrl);
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Haspel
+                    {
+                        Barcode = "Not found",
+                        UsedBy = "-",
+                        Status = Enums.EHaspelStatus.Unkown
+                    };
+                }
+                Haspel result = JsonConvert.DeserializeObject<Haspel>(await response.Content.ReadAsStringAsync());
+
+                return result;
+            } 
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message); 
                 return new Haspel
                 {
                     Barcode = "Not found",
-                    UsedBy = "Not Found"
+                    UsedBy = "-",
+                    Status = Enums.EHaspelStatus.Unkown
                 };
             }
-            string getBarcodeUrl = $"{myEndPoint}/{barcode}";
-            Uri url = new Uri(getBarcodeUrl);
-            var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-            Haspel result = JsonConvert.DeserializeObject<Haspel>(await response.Content.ReadAsStringAsync());
-
-            return result;
         }
 
         public async Task<Haspel[]> GetData()
         {
+
+            if (!myIsConnected)
+            {
+                return new Haspel[0];
+            }
             var httpClient = new HttpClient();
             try
             {
-
                 string url = $"http://{myApiEndPoint.Address}:{myApiEndPoint.Port}/api/haspel";
                 Uri uri = new Uri(url);
                 var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
@@ -89,7 +117,6 @@ namespace AllinqApp.Managers
         {
             try
             {
-
                 UdpClient u = ((UdpState)result.AsyncState).u;
                 IPEndPoint e = ((UdpState)result.AsyncState).e;
 
@@ -138,6 +165,11 @@ namespace AllinqApp.Managers
 
         public async Task PostData(Haspel haspel)
         {
+            if (!myIsConnected)
+            {
+                return;
+            }
+
             var json = JsonConvert.SerializeObject(haspel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 

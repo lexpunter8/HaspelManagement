@@ -19,61 +19,53 @@ namespace AllinqApp.CustomControls
             {
                 var button = (CheckButton)e.Element;
                 button.Clicked += CheckButtonClicked;
+                button.PropertyChanged += Button_PropertyChanged;
                 checkButtons.Add(button);
+            }
+        }
+
+        private void Button_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var button = sender as CheckButton;
+            if (e.PropertyName == nameof(CheckButton.IsChecked) && button.IsChecked)
+            {
+                UpdateChilderen(button);
             }
         }
 
         private void CheckButtonClicked(object sender, EventArgs e)
         {
-            var s = (CheckButton)sender;
+            UpdateChilderen(sender as CheckButton);
+        }
 
-            foreach(CheckButton cb in checkButtons)
+        public void UpdateChilderen(CheckButton button)
+        {
+            foreach (CheckButton cb in checkButtons)
             {
-                if (cb == s)
+                if (cb == button)
                 {
                     continue;
                 }
 
-                cb.IsChecked = false;
+                if (cb.IsChecked)
+                {
+                    cb.SetToFalse();
+                }
             }
-            s.IsChecked = true;
+            button.SetToTrue();
         }
-    }
-
-    public class TextCheckbutton : CheckButton
-    {
-        protected override void IsCheckedChanged()
-        {
-            if (!CanBeChecked)
-            {
-                TextColor = DefaultTextColor;
-                return;
-            }
-            if (IsChecked)
-            {
-                TextColor = CheckBorderColor;
-                return;
-            }
-            TextColor = DefaultTextColor;
-        }
-        public Color DefaultTextColor { get; set; }
-        public bool CanBeChecked { get; set; } = true;
     }
 
     public class CheckButton : Button
     {
         public static readonly BindableProperty IsCheckedProperty =
-                                BindableProperty.Create("IsChecked", typeof(bool), typeof(CheckButton), null);
-
-        public CheckButton()
-        {
-        }
-
+                                BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(CheckButton), default(bool), BindingMode.TwoWay);
 
         public bool IsChecked
         {
             get { return (bool)GetValue(IsCheckedProperty); }
-            set {
+            set
+            {
                 SetValue(IsCheckedProperty, value);
                 IsCheckedChanged();
             }
@@ -89,32 +81,18 @@ namespace AllinqApp.CustomControls
             BorderColor = BackgroundColor;
         }
 
-        public Color CheckBorderColor { get; set; }
-
-    }
-
-    public class IconTextBox : StackLayout
-    {
-        public string Icon { get; set; }
-        public string IconFontFamily { get; set; }
-
-        public string Text { get; set; }
-        public string FontFamily { get; set; }
-
-        public IconTextBox()
+        internal void SetToFalse()
         {
-            var iconLabel = new Label();
-            iconLabel.Text = Icon;
-            iconLabel.FontFamily = IconFontFamily;
-            iconLabel.TextColor = Color.DarkRed;
-
-            var textLabel = new Label();
-            textLabel.Text = Text;
-            textLabel.FontFamily = FontFamily;
-            textLabel.TextColor = Color.DarkRed;
-
-            Children.Add(iconLabel);
-            Children.Add(textLabel);
+            SetValue(IsCheckedProperty, false);
+            IsCheckedChanged();
         }
+
+        internal void SetToTrue()
+        {
+            SetValue(IsCheckedProperty, true);
+            IsCheckedChanged();
+        }
+
+        public Color CheckBorderColor { get; set; }
     }
 }

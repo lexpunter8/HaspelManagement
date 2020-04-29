@@ -7,11 +7,19 @@
     xmlns:local="clr-namespace:AllinqApp"
     android:TabbedPage.ToolbarPlacement="Bottom"
     SelectedItem="{Binding SelectedTab}"
-    BarBackgroundColor="#1d1d1d"
+    BarBackgroundColor="#0f1b28"
     BarTextColor="White"
-    UnselectedTabColor="White"
+    Title="{Binding TabBarTitle}"
+    UnselectedTabColor="White" x:Name="tabbedView"
     SelectedTabColor="#4f86c9" CurrentPageChanged="TabbedPage_CurrentPageChanged">
     <local:MainView Title="Details" IconImageSource="infoicon.png" BindingContext="{Binding MainViewModel}"/>
     <local:PartialScannerView BindingContext="{Binding ScannerViewModel}" Title="Scan" IconImageSource="unnamed.png"/>
 
+    <TabbedPage.Resources>
+        <Color x:Key="primaryDark">#070d14</Color>
+        <Color x:Key="primaryLight">#0f1b28</Color>
+        <Color x:Key="redBrush">#BBDEA2</Color>
+        <Color x:Key="greenBrush">#F8C5C7</Color>
+        <Color x:Key="blueBrush">#4f86c9</Color>
+    </TabbedPage.Resources>
 </TabbedPage>

@@ -11,12 +11,12 @@
     <item name="windowActionBar">false</item>
     <!-- Set theme colors from https://aka.ms/material-colors -->
     <!-- colorPrimary is used for the default action bar background -->
-    <item name="colorPrimary">#4F88CA</item>
+    <item name="colorPrimary">#0f1b28</item>
     <!-- colorPrimaryDark is used for the status bar -->
-    <item name="colorPrimaryDark">#245E97</item>
-    <!-- colorAccent is used as the default value for colorControlActivated
+    <item name="colorPrimaryDark">#070d14</item>
+	  <!-- colorAccent is used as the default value for colorControlActivated
          which is used to tint widgets -->
-    <item name="colorAccent">#49A4A1</item>
+    <item name="colorAccent">#4F88CA</item>
     <!-- You can also set colorControlNormal, colorControlActivated
          colorControlHighlight and colorSwitchThumbNormal. -->
     <item name="windowActionModeOverlay">true</item>

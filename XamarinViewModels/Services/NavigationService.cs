@@ -44,7 +44,7 @@ namespace XamarinViewModels
 
         public void PresentAsNavigatableMainPage(ViewModelBase viewModel)
         {
-            var page = _viewLocator.CreateAndBindPageFor(viewModel);
+            var page = _viewLocator.CreateAndBindPageFor(viewModel);    
 
             NavigationPage newNavigationPage = new NavigationPage(page);
 
@@ -113,7 +113,6 @@ namespace XamarinViewModels
 
             var s = _viewLocator.FindPageForViewModel(current.GetType());
             //await Navigator.RemovePage(s);
-
         }
 
         public async Task NavigateBack()

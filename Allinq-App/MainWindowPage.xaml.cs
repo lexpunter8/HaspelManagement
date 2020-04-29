@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Allinq;
+using System;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -13,17 +14,27 @@ namespace AllinqApp
             InitializeComponent();
 
         }
-        Page myPreviousPage;
+
         void TabbedPage_CurrentPageChanged(Object sender, System.EventArgs e)
         {
             var dataContext = BindingContext as MainWindowViewModel;
-            //dataContext.TabChanged()
-            MainWindowPage s = sender as MainWindowPage;
-            if (myPreviousPage?.GetType() == typeof(PartialScannerView))
+            if (dataContext == null)
             {
-                //dataContext.ScannerViewLeft();
+                return;
             }
-            myPreviousPage = CurrentPage;
+            //dataContext.TabChanged()
+            var c = (TabbedPage)sender;
+            var s = c.CurrentPage;
+            if (s.GetType() == typeof(MainView))
+            {
+                dataContext.TabChanged("Details");
+            }
+
+            if (s.GetType() == typeof(PartialScannerView))
+            {
+                dataContext.TabChanged("Scan");
+            }
+
         }
     }
 }

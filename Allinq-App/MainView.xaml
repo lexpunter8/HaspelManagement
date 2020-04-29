@@ -2,45 +2,53 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:customcontrols="clr-namespace:AllinqApp.CustomControls"
              x:Class="AllinqApp.MainView">
-    <Grid BackgroundColor="#CC000000">
+    <ContentPage.Resources>
+        <Color x:Key="backGroundColor">#CC000000</Color>
+    </ContentPage.Resources>
+    <Grid BackgroundColor="#070d14">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <!--<RowDefinition Height="56"/>-->
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" SeparatorColor="Red" ItemsSource="{Binding Path=Haspels}">
+        <ListView Grid.Row="0" SeparatorColor="{DynamicResource blueBrush}" RowHeight="65" ItemsSource="{Binding Path=Haspels}">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                            </Grid.RowDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="Subtitle" Text="{Binding Barcode}"></Label>
-                            <customcontrols:IconTextLabel Grid.Row="1" Grid.Column="0" Icon="&#xf007;" Text="{Binding Status}"></customcontrols:IconTextLabel>
-                            <customcontrols:IconTextLabel Grid.Row="1" Grid.Column="1" Icon="&#xf129;" Text="{Binding UsedBy}"></customcontrols:IconTextLabel>
-                            
-                            <!--<Label TextColor="White" Grid.Column="3">
-                                <Label.Style>
-                                    <Style TargetType="Label">
-                                        
-                                        <Setter Property="Text" Value="In"></Setter>
-                                        <Style.Triggers>
-                                            <DataTrigger TargetType="Label" Value="True" Binding="{Binding IsInPand}">
-                                                <Setter Property="Text" Value="Out"/>
+                        <Frame Margin="0" BackgroundColor="{DynamicResource primaryLight}" CornerRadius="0" Padding="10">
+                            <Frame.Content>
+                                <Grid BackgroundColor="{DynamicResource primaryLight}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="3*"/>
+                                        <RowDefinition Height="2*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label TextColor="White" Grid.ColumnSpan="3" Grid.Column="0" FontSize="Medium" Text="{Binding Barcode}"></Label>
+                                    <!--<customcontrols:IconTextLabel Grid.Row="1" Grid.Column="1" Icon="&#xf007;" Text="{Binding Status}"></customcontrols:IconTextLabel>-->
+                                    <!--<Label Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="3" TextColor="White" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="End" Text="{Binding UsedBy}"></Label>-->
+                                    <Label Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" TextColor="White" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" Text="{Binding UsedBy}"/>
+
+
+                                    <Image Source="RedCircle.png" HeightRequest="20" WidthRequest="20" Grid.Column="3"
+                                           Grid.Row="0" Grid.RowSpan="2" BackgroundColor="{DynamicResource primaryLight}" >
+                                        <Image.Triggers>
+                                            <DataTrigger TargetType="Image" Binding="{Binding Status}" Value="1">
+                                                <Setter Property="Source" Value="GreenCircle.png"/>
                                             </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Label.Style>
-                            </Label>-->
-                        </Grid>
+                                            <DataTrigger TargetType="Image" Binding="{Binding Status}" Value="0">
+                                                <Setter Property="Source" Value="RedCircle.png"/>
+                                            </DataTrigger>
+                                        </Image.Triggers>
+                                    </Image>
+                                </Grid>
+                            </Frame.Content>
+                        </Frame>
                     
                     </ViewCell>
                         

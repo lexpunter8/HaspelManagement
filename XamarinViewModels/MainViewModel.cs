@@ -22,26 +22,22 @@ namespace XamarinViewModels
             myApiManager = apiManager;
             Haspels.Add(new Haspel
             {
-                Barcode = "Barcode",
-                Status = Enums.EHaspelStatus.Unkown,
-                UsedBy = "User"
+                Barcode = "98764531230",
+                Status = Enums.EHaspelStatus.IsUsed,
+                UsedBy = "Team 2"
             });
             Haspels.Add(new Haspel
             {
-                Barcode = "Barcode",
-                Status = Enums.EHaspelStatus.Unkown,
-                UsedBy = "User"
+                Barcode = "0123456789",
+                Status = Enums.EHaspelStatus.Full,
+                UsedBy = "-"
             });
 
             Haspels.CollectionChanged += Haspels_CollectionChanged;
 
             myApiManager.Initialized += (a, s) => SetHaspels();
             myApiManager.Initialize();
-
-            ScanCommand = new Command(ScanCommandExecute);
         }
-
-        public ICommand ScanCommand { get; set; }
         public string SelectedNavigationItem { get; set; }
         public List<string> NavigationItems { get; set; } = new List<string> { "", "", "" };
 
@@ -83,23 +79,5 @@ namespace XamarinViewModels
         }
 
         public ObservableCollection<Haspel> Haspels { get; set; } = new ObservableCollection<Haspel>();
-
-        private void ScanCommandExecute()
-        {
-            var scanner = new PartialScannerPageViewModel(myNavigationService, myApiManager);
-            myNavigationService.NavigateTo(scanner);
-
-            scanner.OnScanResult += async (o, scanResult) =>
-            {
-                await myApiManager.PostData(new Haspel
-                {
-                    Barcode = scanResult.Barcode,
-                    Status = scanResult.Status,
-                    UsedBy = scanResult.User
-                });
-
-                SetHaspels();
-            };
-        }
     }
 }

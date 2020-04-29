@@ -1,14 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:customcontrols="clr-namespace:AllinqApp.CustomControls"
+             xmlns:customcontrols="clr-namespace:AllinqApp.CustomControls" Title="Gescande barcode"
              x:Class="AllinqApp.ScannerResultHandlerView">
-    <Grid x:Name="popup" BackgroundColor="#CC000000" Grid.Row="0" IsVisible="true">
-
+    <Grid x:Name="popup" BackgroundColor="#070d14" Grid.Row="0" IsVisible="true">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="2*"/>
-
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -34,72 +32,118 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="4*"/>
                 <RowDefinition Height="3*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
 
             </Grid.RowDefinitions>
-                <customcontrols:CheckButtonGroup 
-                    Grid.Row="0" Grid.ColumnSpan="2"
-                    Grid.Column="0">
-                <customcontrols:CheckButton
-                    x:Name="inButton"
-                    Margin="20,0,20,0"
-                    BackgroundColor="#4f86c9"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Command="{Binding InButtonClickedCommand}"
-                    HeightRequest="10"
-                    FontFamily="{StaticResource FontAwesomeSolid}"
-                    FontSize="Title"
-                    TextColor="White"
-                    IsChecked="{Binding InButtonChecked, Mode=TwoWay}"
-                    Text="&#xf2f6;" BorderWidth="1"  CornerRadius="20"
-                    CheckBorderColor="White"/>
-                <customcontrols:CheckButton
-                    x:Name="outButton"
-                    Margin="20,0,20,0"
-                    TextColor="White"
-                    BackgroundColor="#4f86c9"
-                    FontFamily="{StaticResource FontAwesomeSolid}"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    HeightRequest="10"
-                    CornerRadius="20"
-                    FontSize="Title"
-                    CheckBorderColor="White"
-                    BorderWidth="1"
-                    IsChecked="{Binding OutButtonChecked, Mode=TwoWay}"
-                    Text="&#xf2f5;"/>
-            </customcontrols:CheckButtonGroup>
+            <StackLayout Margin="20,40,20,0" Grid.Row="0" Grid.ColumnSpan="2"
+                            Grid.Column="0">
+                <Label Text="Haspel gebruik status:" TextColor="White"></Label>
+                <customcontrols:CheckButtonGroup x:Name="checkGroup1">
+                    <customcontrols:CheckButton
+                                        x:Name="inButton"
+                                        BackgroundColor="#4f86c9"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        HeightRequest="60" WidthRequest="130"
+                                        CornerRadius="5"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        FontSize="Title"
+                                        TextColor="White"
+                                        HorizontalOptions="Center" VerticalOptions="Center"
+                                        IsChecked="{Binding InButtonChecked}"
+                                        Command="{Binding StatusChangedCommand}"
+                                        Text="&#xf2f6;" BorderWidth="1" 
+                                        CheckBorderColor="White"
+                            />
+                    <customcontrols:CheckButton
+                                        x:Name="outButton"
+                                        TextColor="White"
+                                        BackgroundColor="#4f86c9"
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        Command="{Binding StatusChangedCommand}"
+                                        Text="&#xf2f5;"
+                                        Grid.Row="0"
+                                        Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center"
+                                        HeightRequest="60" WidthRequest="130"
+                                        CornerRadius="5"
+                                        FontSize="Title"
+                                        CheckBorderColor="White"
+                                        BorderWidth="1"
+                                        IsChecked ="{Binding OutButtonChecked}"
+                            />
+                </customcontrols:CheckButtonGroup>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding Source={x:Reference outButton}, Path=IsChecked}"
+                        Margin="20,40,20,0"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1">
+                <Label Text="Haspel in gebruik door:" TextColor="White"/>
+                <Picker ItemsSource="{Binding UserOptions}"
+                        SelectedItem="{Binding SelectedUserOptions}"
+                        BackgroundColor="#4f86c9"
+                        TextColor="#FF4081"/>
+            </StackLayout> 
+
+            <StackLayout IsVisible="{Binding Source={x:Reference inButton}, Path=IsChecked}"
+                        Margin="20,40,20,0"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1">
+                <Label Text="In pand haspel status:" TextColor="White"/>
+                <customcontrols:CheckButtonGroup x:Name="checkGroup"                            >
+                    <customcontrols:CheckButton
+                                x:Name="volButton"
+                                Margin="20,0,20,0"
+                                BackgroundColor="#4f86c9"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HeightRequest="60" WidthRequest="130"
+                                CornerRadius="5"
+                                FontSize="Title"
+                                TextColor="White"
+                                HorizontalOptions="Center" VerticalOptions="Center"
+                                IsChecked="{Binding FullButtonChecked}"
+                                Command="{Binding StatusChangedCommand}"
+                                Text="Vol" BorderWidth="1" 
+                                CheckBorderColor="White"/>
+                    <customcontrols:CheckButton
+                                x:Name="leegButton"
+                                Margin="20,0,20,0"
+                                TextColor="White"
+                                BackgroundColor="#4f86c9"
+                                Text="Leeg"
+                                Grid.Row="0"
+                                Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center"
+                                HeightRequest="60" WidthRequest="130"
+                                CornerRadius="5"
+                                FontSize="Title"
+                                CheckBorderColor="White"
+                                BorderWidth="1"
+                                Command="{Binding StatusChangedCommand}"
+                                IsChecked ="{Binding EmptyButtonChecked}"/>
+                </customcontrols:CheckButtonGroup>
+            </StackLayout>
             
-            <Picker IsVisible="{Binding Source={x:Reference outButton}, Path=IsChecked}"
-                ItemsSource="{Binding UserOptions}"
-                    SelectedItem="{Binding SelectedUserOptions}"
-                    BackgroundColor="#4f86c9"
-                    TextColor="#FF4081"
-                    Margin="20,40,20,0"
-                    Grid.ColumnSpan="2"
-                    Grid.Row="1"/>
             <Button Margin="20,40,20,0"
-                    BackgroundColor="Transparent"
-                    TextColor="White"
-                    BorderColor="#4f86c9"
-                    BorderWidth="1"
-                    CornerRadius="20"
-                    Grid.Column="0"
-                    Grid.Row="2"
-                    Text="Cancel"
-                    Command="{Binding CancelCommand}"/>
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        BorderColor="#4f86c9"
+                        BorderWidth="1"
+                        CornerRadius="20"
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        Text="Cancel"
+                        Command="{Binding CancelCommand}"/>
             <Button Grid.Row="2" Grid.Column="1"
-                    Margin="20,40,20,0"
-                    FontFamily="{StaticResource FontAwesomeSolid}"
-                    Text="&#xf00c;"
-                    Command="{Binding CompleteCommand}"
-                    IsVisible="{Binding Source={x:Reference outButton}, Path=IsChecked}"
-                    TextColor="Black" CornerRadius="20"
-                    BackgroundColor="#4f86c9"/>
+                        Margin="20,40,20,0"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        Text="&#xf00c;"
+                        Command="{Binding CompleteCommand}"
+                        IsVisible="{Binding ShowCompleteButton}"
+                        TextColor="Black" CornerRadius="20"
+                        BackgroundColor="#4f86c9"/>
         </Grid>
-        
     </Grid>
 </ContentPage>

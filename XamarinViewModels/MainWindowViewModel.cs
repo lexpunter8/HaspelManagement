@@ -10,23 +10,23 @@ namespace XamarinViewModels
     {
         private NavigationService myNavigationService;
 
-        public MainWindowViewModel(NavigationService navService)
+        public MainWindowViewModel(NavigationService navService, MainViewModel mainViewModel, PartialScannerPageViewModel partialScannerPageViewModel)
         {
             myNavigationService = navService;
-            PropertyChanged += MainWindowViewModel_PropertyChanged;
+            MainViewModel = mainViewModel;
+            ScannerViewModel = partialScannerPageViewModel;
+            ScannerViewModel.ScanResultHandled += (a, b) => MainViewModel.SetHaspels();
         }
 
-        private void MainWindowViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public void TabChanged(string selectedTitle)
         {
-            //if (e.PropertyName == nameof(SelectedTab))
-            //{
-
-            //}
-
+            TabBarTitle = selectedTitle;
+            OnPropertyChanged(nameof(TabBarTitle));
         }
 
         public MainViewModel MainViewModel { get; set; }
         public PartialScannerPageViewModel ScannerViewModel { get; set; }
+        public string TabBarTitle { get; set; } = "details";
 
         //public List<ViewModelBase> NavigationViewModels { get; set; }
         //public ObservableCollection<Page> Tabs { get; set; } = new ObservableCollection<Page>();

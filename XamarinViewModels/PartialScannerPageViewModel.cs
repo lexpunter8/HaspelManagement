@@ -14,24 +14,33 @@ namespace XamarinViewModels
     {
         private ApiManager myApiManager;
         private INavigationService myNavigationService;
+        private ScannerResultHandlerViewModel myScannerResultHandler;
         public PartialScannerPageViewModel(INavigationService navigationService, ApiManager apiManagger)
         {
             myApiManager = apiManagger;
             myNavigationService = navigationService;
+            myScannerResultHandler = new ScannerResultHandlerViewModel(myNavigationService, myApiManager);
+            myScannerResultHandler.OnScanResult += (o, r) => HandleHaspelResult(r);
         }
 
         public async void HandleScanResult(Result result)
         {
-            var handler = new ScannerResultHandlerViewModel(myNavigationService, result, myApiManager);
-            handler.OnScanResult += (o, r) => OnScanResult(this, r);
-            await myNavigationService.NavigateTo(handler);
-            //OnPropertyChanged(nameof(ShowPopup));
-            //ScanResult = result;
-            //OnPropertyChanged(nameof(ScanResult));
-
-            //OnPropertyChanged(nameof(ScanResult.Text));
+            await myNavigationService.NavigateTo(myScannerResultHandler);
+            myScannerResultHandler.SetScanResult(result);
+            myScannerResultHandler.HandleScanResult(result);
         }
 
-        public EventHandler<ScannerResult> OnScanResult;
+        public EventHandler<ScannerResult> ScanResultHandled;
+
+        private async void HandleHaspelResult(ScannerResult scanResult)
+        {
+            await myApiManager.PostData(new Haspel
+            {
+                Barcode = scanResult.Barcode,
+                Status = scanResult.Status,
+                UsedBy = scanResult.User
+            });
+            ScanResultHandled?.Invoke(this, scanResult);
+        }
     }
 }

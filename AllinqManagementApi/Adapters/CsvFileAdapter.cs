@@ -10,43 +10,47 @@ namespace AllinqManagementApi.Adapters
     public class CsvFileAdapter : IFileAdapter<Haspel>
     {
         private string myFile = Path.Combine(Environment.CurrentDirectory, "Haspels.csv");
-        public CsvFileAdapter()
-        {
-        }
 
         public Haspel[] GetData()
         {
-            using (FileStream fs = File.OpenRead(myFile))
+            try
             {
-                using (StreamReader streamWriter = new StreamReader(fs))
+                using (FileStream fs = File.OpenRead(myFile))
                 {
-                    streamWriter.ReadLine();
-                    List<Haspel> haspels = new List<Haspel>();
-                    string line;
-                    while ((line = streamWriter.ReadLine()) != null)
+                    using (StreamReader streamWriter = new StreamReader(fs))
                     {
-                        try
+                        streamWriter.ReadLine();
+                        List<Haspel> haspels = new List<Haspel>();
+                        string line;
+                        while ((line = streamWriter.ReadLine()) != null)
                         {
-                            var values = line.Split(',');
-                            haspels.Add(new Haspel
+                            try
                             {
-                                Barcode = values[0] ?? "",
-                                UsedBy = values[1] ?? "",
-                                Status = ConvertStringToStatus(values[2]),
-                                Comment = values[3] ?? ""
-                            });
+                                var values = line.Split(',');
+                                haspels.Add(new Haspel
+                                {
+                                    Barcode = values[0] ?? "",
+                                    UsedBy = values[1] ?? "",
+                                    Status = ConvertStringToStatus(values[2]),
+                                    Comment = values[3] ?? ""
+                                });
 
-                        } catch (Exception e)
-                        {
-                            // skip
+                            }
+                            catch (Exception e)
+                            {
+                                // skip
+                            }
                         }
+
+                        return haspels.ToArray();
                     }
 
-                    return haspels.ToArray();
                 }
-
             }
-                
+            catch (Exception e)
+            {
+                return new Haspel[0];
+            }
         }
 
         private EHaspelStatus ConvertStringToStatus(string v)
@@ -56,7 +60,7 @@ namespace AllinqManagementApi.Adapters
                 case "isused":
                     return EHaspelStatus.IsUsed;
                 case "isnotused":
-                    return EHaspelStatus.IsNotUsed;
+                    return EHaspelStatus.Unkown;
                 default:
                     return EHaspelStatus.Unkown;
             }
