@@ -34,7 +34,10 @@ namespace AllinqApp
             {
                 dataContext.TabChanged("Scan");
             }
-
+            if(s.GetType() == typeof(TeamsPage))
+            {
+                dataContext.TabChanged("Scan");
+            }
         }
     }
 }

@@ -58,7 +58,7 @@ namespace XamarinViewModels
                 Barcode = result.Text;
                 OnPropertyChanged(nameof(Barcode));
 
-                ScannedHaspel = await myApiManager.GetHaspelByBarcode(result.Text);
+                ScannedHaspel = await myApiManager.HaspelApiManager.GetHaspelByBarcode(result.Text);
                 OnPropertyChanged(nameof(ScannedHaspel));
 
                 if (ScannedHaspel.Status == EHaspelStatus.IsUsed || ScannedHaspel.Status == EHaspelStatus.Unkown)

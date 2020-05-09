@@ -15,5 +15,10 @@ namespace AllinqApp
         void ListView_ItemSelected(System.Object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
         {
         }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+
+        }
     }
 }

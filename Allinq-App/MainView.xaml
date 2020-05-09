@@ -11,8 +11,7 @@
             <RowDefinition Height="Auto"/>
             <!--<RowDefinition Height="56"/>-->
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" SeparatorColor="{DynamicResource blueBrush}" RowHeight="65" ItemsSource="{Binding Path=Haspels}">
-
+        <ListView Grid.Row="0" SeparatorColor="{DynamicResource blueBrush}" ItemTapped="ListView_ItemTapped"  RowHeight="65" ItemsSource="{Binding Path=Haspels}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

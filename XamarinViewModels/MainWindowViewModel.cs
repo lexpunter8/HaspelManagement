@@ -10,10 +10,10 @@ namespace XamarinViewModels
     {
         public MainWindowViewModel(MainViewModel mainViewModel, PartialScannerPageViewModel partialScannerPageViewModel, TeamsManagerViewModel teamsManagerViewModel)
         {
+            TeamsViewModel = teamsManagerViewModel;
             MainViewModel = mainViewModel;
             ScannerViewModel = partialScannerPageViewModel;
             ScannerViewModel.ScanResultHandled += (a, b) => MainViewModel.SetHaspels();
-            TeamsViewModel = teamsManagerViewModel;
         }
 
         public void TabChanged(string selectedTitle)

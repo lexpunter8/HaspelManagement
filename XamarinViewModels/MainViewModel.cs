@@ -43,7 +43,7 @@ namespace XamarinViewModels
 
         public async void SetHaspels()
         {
-            Haspel[] haspels = await myApiManager.GetData();
+            Haspel[] haspels = await myApiManager.HaspelApiManager.GetData();
             Haspels.Clear();
             foreach (Haspel h in haspels)
             {

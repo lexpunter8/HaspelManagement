@@ -34,7 +34,7 @@ namespace XamarinViewModels
 
         private async void HandleHaspelResult(ScannerResult scanResult)
         {
-            await myApiManager.PostData(new Haspel
+            await myApiManager.HaspelApiManager.PostData(new Haspel
             {
                 Barcode = scanResult.Barcode,
                 Status = scanResult.Status,

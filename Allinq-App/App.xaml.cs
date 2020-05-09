@@ -50,7 +50,7 @@ namespace Allinq_App
             var navigationService = new NavigationService(this, viewLocator);
             var mainViewModel = new MainViewModel(navigationService, myApiManager);
 
-            var main = new MainWindowViewModel(mainViewModel, new PartialScannerPageViewModel(navigationService, myApiManager), new TeamsManagerViewModel());
+            var main = new MainWindowViewModel(mainViewModel, new PartialScannerPageViewModel(navigationService, myApiManager), new TeamsManagerViewModel(myApiManager));
 
             //var tabbed = new MainWindowPage();
             //tabbed.BindingContext = main;

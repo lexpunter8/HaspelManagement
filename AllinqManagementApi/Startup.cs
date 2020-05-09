@@ -34,8 +34,10 @@ namespace AllinqManagementApi
             services.AddSingleton<IHostedService, BroadCastServiceWorker>();
 
             services.AddSingleton<IFileService<Haspel>, CsvFileService>();
+            services.AddSingleton<IFileService<string>, TeamService>();
 
             services.AddSingleton<IFileAdapter<Haspel>, CsvFileAdapter>();
+            services.AddSingleton<IFileAdapter<string>, TeamsFileAdapter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
