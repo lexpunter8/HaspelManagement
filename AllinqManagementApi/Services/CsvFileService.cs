@@ -63,5 +63,11 @@ namespace AllinqManagementApi.Services
         {
             myHaspelFileAdapter.WriteData(data);
         }
+
+        public void Remove(Haspel data)
+        {
+            myHaspels.Remove(data);
+            HaspelsChanged?.Invoke(this, new EventArgs());
+        }
     }
 }

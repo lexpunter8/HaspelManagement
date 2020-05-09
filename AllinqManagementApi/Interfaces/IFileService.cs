@@ -7,5 +7,6 @@ namespace AllinqManagementApi.Interfaces
         T GetByBarcode(string barcode);
         void InsertData(T[] data);
         void Update(T data);
+        void Remove(T data);
     }
 }

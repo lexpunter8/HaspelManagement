@@ -8,14 +8,12 @@ namespace XamarinViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private NavigationService myNavigationService;
-
-        public MainWindowViewModel(NavigationService navService, MainViewModel mainViewModel, PartialScannerPageViewModel partialScannerPageViewModel)
+        public MainWindowViewModel(MainViewModel mainViewModel, PartialScannerPageViewModel partialScannerPageViewModel, TeamsManagerViewModel teamsManagerViewModel)
         {
-            myNavigationService = navService;
             MainViewModel = mainViewModel;
             ScannerViewModel = partialScannerPageViewModel;
             ScannerViewModel.ScanResultHandled += (a, b) => MainViewModel.SetHaspels();
+            TeamsViewModel = teamsManagerViewModel;
         }
 
         public void TabChanged(string selectedTitle)
@@ -26,6 +24,7 @@ namespace XamarinViewModels
 
         public MainViewModel MainViewModel { get; set; }
         public PartialScannerPageViewModel ScannerViewModel { get; set; }
+        public TeamsManagerViewModel TeamsViewModel { get; set; }
         public string TabBarTitle { get; set; } = "details";
 
         //public List<ViewModelBase> NavigationViewModels { get; set; }

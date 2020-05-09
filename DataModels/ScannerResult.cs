@@ -15,10 +15,10 @@ namespace DataModels
     {
         public enum EHaspelStatus
         {
-            Unkown,
-            Full,
-            IsUsed,
-            Empty
+            Unkown = 0,
+            Full = 1,
+            IsUsed = 2,
+            Empty = 3
         }
     }
 }

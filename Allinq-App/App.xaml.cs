@@ -45,11 +45,12 @@ namespace Allinq_App
             viewLocator.AddMapping<MainViewModel, MainView>();
             viewLocator.AddMapping<PartialScannerPageViewModel, FullScreenScanning>();
             viewLocator.AddMapping<ScannerResultHandlerViewModel, ScannerResultHandlerView>();
+            viewLocator.AddMapping<TeamsManagerViewModel, TeamsPage>();
 
             var navigationService = new NavigationService(this, viewLocator);
             var mainViewModel = new MainViewModel(navigationService, myApiManager);
 
-            var main = new MainWindowViewModel(navigationService, mainViewModel, new PartialScannerPageViewModel(navigationService, myApiManager));
+            var main = new MainWindowViewModel(mainViewModel, new PartialScannerPageViewModel(navigationService, myApiManager), new TeamsManagerViewModel());
 
             //var tabbed = new MainWindowPage();
             //tabbed.BindingContext = main;

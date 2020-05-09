@@ -21,16 +21,11 @@ namespace AllinqApp.Managers
         private IPEndPoint myApiEndPoint;
         private bool myIsConnected;
         private string myEndPoint => $"http://{myApiEndPoint.Address}:{myApiEndPoint.Port}/api/haspel";
-
-        public ApiManager()
-        {
-        }
-
+        
         public async Task<Haspel> GetHaspelByBarcode(string barcode)
         {
             try
             {
-
                 if (!myIsConnected)
                 {
                     return new Haspel

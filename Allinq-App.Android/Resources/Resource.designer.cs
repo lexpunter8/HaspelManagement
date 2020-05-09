@@ -4458,16 +4458,19 @@ namespace Allinq_App.Droid
 			public const int notify_panel_notification_icon_bg = 2131165295;
 			
 			// aapt resource value: 0x7F070070
-			public const int RedCircle = 2131165296;
+			public const int OrangeCircle = 2131165296;
 			
 			// aapt resource value: 0x7F070071
-			public const int tooltip_frame_dark = 2131165297;
+			public const int RedCircle = 2131165297;
 			
 			// aapt resource value: 0x7F070072
-			public const int tooltip_frame_light = 2131165298;
+			public const int tooltip_frame_dark = 2131165298;
 			
 			// aapt resource value: 0x7F070073
-			public const int unnamed = 2131165299;
+			public const int tooltip_frame_light = 2131165299;
+			
+			// aapt resource value: 0x7F070074
+			public const int unnamed = 2131165300;
 			
 			static Drawable()
 			{
