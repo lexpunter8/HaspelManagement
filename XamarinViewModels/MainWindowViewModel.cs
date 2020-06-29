@@ -25,7 +25,7 @@ namespace XamarinViewModels
         public MainViewModel MainViewModel { get; set; }
         public PartialScannerPageViewModel ScannerViewModel { get; set; }
         public TeamsManagerViewModel TeamsViewModel { get; set; }
-        public string TabBarTitle { get; set; } = "details";
+        public string TabBarTitle { get; set; } = "Scan";
 
         //public List<ViewModelBase> NavigationViewModels { get; set; }
         //public ObservableCollection<Page> Tabs { get; set; } = new ObservableCollection<Page>();

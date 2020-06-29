@@ -20,24 +20,30 @@ namespace XamarinViewModels
         {
             myNavigationService = navigationService;
             myApiManager = apiManager;
+
             Haspels.Add(new Haspel
             {
-                Barcode = "98764531230",
-                Status = Enums.EHaspelStatus.IsUsed,
-                UsedBy = "Team 2"
-            });
-            Haspels.Add(new Haspel
-            {
-                Barcode = "0123456789",
-                Status = Enums.EHaspelStatus.Full,
-                UsedBy = "-"
+                Barcode = "Kan niet met de server verbinden!"
             });
 
             Haspels.CollectionChanged += Haspels_CollectionChanged;
 
-            myApiManager.Initialized += (a, s) => SetHaspels();
+            myApiManager.Connected += (a, s) => SetHaspels();
             myApiManager.Initialize();
+
+            RefreshCommand = new Command(RefreshCommandExecute);
         }
+
+        private void RefreshCommandExecute(object obj)
+        {
+            IsRefreshing = true;
+            OnPropertyChanged(nameof(IsRefreshing));
+            SetHaspels();
+            IsRefreshing = false;
+            OnPropertyChanged(nameof(IsRefreshing));
+        }
+
+        public ICommand RefreshCommand { get; set; }
         public string SelectedNavigationItem { get; set; }
         public List<string> NavigationItems { get; set; } = new List<string> { "", "", "" };
 
@@ -79,5 +85,6 @@ namespace XamarinViewModels
         }
 
         public ObservableCollection<Haspel> Haspels { get; set; } = new ObservableCollection<Haspel>();
+        public bool IsRefreshing { get; private set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AllinqManagementApi.Interfaces;
+using DataModels;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -40,9 +41,9 @@ namespace AllinqManagementApi.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public IActionResult Post([FromBody]string value)
+        public IActionResult Post([FromBody]Team value)
         {
-            myTeamService.Update(value);
+            myTeamService.Update(value.Name);
             return Ok();
         }
 

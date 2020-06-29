@@ -22,7 +22,10 @@ namespace Infrastructure.Managers
 
             if (!myParent.IsConnected)
             {
-                return new string[0];
+                return new string[]
+                    {
+                        "Kan niet met de server verbinden!"
+                    };
             }
 
             var httpClient = new HttpClient();
@@ -38,6 +41,7 @@ namespace Infrastructure.Managers
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                myParent.LosedConnection?.Invoke(this, new EventArgs());
             }
             return new string[0];
         }
@@ -49,15 +53,29 @@ namespace Infrastructure.Managers
                 return;
             }
 
-            var data = new StringContent(team, Encoding.UTF8, "application/json");
+            var teamModel = new DataModels.Team
+            {
+                Name = team
+            };
+            try
+            {
 
-            var client = new HttpClient();
+                var json = JsonConvert.SerializeObject(teamModel);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync(myApiEndPoint, data);
+                var client = new HttpClient();
 
-            string result = response.Content.ReadAsStringAsync().Result;
+                var response = await client.PostAsync(myApiEndPoint, data);
 
-            client.Dispose();
+                string result = response.Content.ReadAsStringAsync().Result;
+
+                client.Dispose();
+            }
+            catch (Exception)
+            {
+                myParent.LosedConnection?.Invoke(this, new EventArgs());
+                
+            }
         }
     }
 }

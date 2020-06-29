@@ -40,7 +40,7 @@ namespace Allinq_App
 
             Haspels.CollectionChanged += Haspels_CollectionChanged;
 
-            myApiManager.Initialized += (a, s) => SetHaspels(myApiManager.HaspelApiManager.GetData().Result);
+            myApiManager.Connected += (a, s) => SetHaspels(myApiManager.HaspelApiManager.GetData().Result);
             myApiManager.Initialize();
         }
 

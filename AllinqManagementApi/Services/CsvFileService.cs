@@ -18,9 +18,16 @@ namespace AllinqManagementApi.Services
         {
             myHaspelFileAdapter = fileAdapter;
 
-            myHaspels.AddRange(myHaspelFileAdapter.GetData());
+            UpdateLocalData();
 
-            HaspelsChanged += async (s, e) => await myHaspelFileAdapter.WriteData(myHaspels.ToArray());
+            HaspelsChanged += async (s, e) => await myHaspelFileAdapter.WriteData(myHaspels.ToArray()).ContinueWith(_ => UpdateLocalData());
+        }
+
+        private void UpdateLocalData()
+        {
+            myHaspels.Clear();
+
+            myHaspels.AddRange(myHaspelFileAdapter.GetData());
         }
 
         public Haspel[] GetAllData()
@@ -61,7 +68,8 @@ namespace AllinqManagementApi.Services
 
         public void InsertData(Haspel[] data)
         {
-            myHaspelFileAdapter.WriteData(data);
+            myHaspels.AddRange(data);
+            HaspelsChanged?.Invoke(this, new EventArgs());
         }
 
         public void Remove(Haspel data)

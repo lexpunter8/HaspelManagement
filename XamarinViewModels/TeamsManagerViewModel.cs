@@ -17,20 +17,21 @@ namespace XamarinViewModels
         private TeamApiManager myTeamApiManager;
         public TeamsManagerViewModel(ApiManager teamApiManager)
         {
-            Teams.Add(new Team
-            {
-                Name = "twee"
-            });
-
             Teams.CollectionChanged += Haspels_CollectionChanged;
 
-            teamApiManager.Initialized += (e, a) => GetTeams();
+            teamApiManager.Connected += (e, a) => GetTeams();
 
             myTeamApiManager = teamApiManager.TeamApiManager;
 
             GetTeams();
 
             RefreshCommand = new Command(RefreshCommandExecute);
+        }
+
+        public async void AddTeam(string result)
+        {
+            await myTeamApiManager.PostData(result);
+            RefreshCommandExecute(null);
         }
 
         private void RefreshCommandExecute(object obj)
@@ -44,10 +45,12 @@ namespace XamarinViewModels
         }
 
         public ICommand RefreshCommand { get; set; }
+        public ICommand AddTeamCommand { get; set; }
         public bool IsRefreshing { get; set; }
 
         private async void GetTeams()
         {
+            Teams.Clear();
             string[] teams = await myTeamApiManager.GetData();
             foreach (var t in teams)
             {
@@ -90,7 +93,7 @@ namespace XamarinViewModels
             {
                 new Team
                 {
-                    Name = "test"
+                    Name = "Kan niet met de server verbinden!"
                 }
             };
     }

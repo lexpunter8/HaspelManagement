@@ -18,8 +18,8 @@
             </Grid.RowDefinitions>
             <StackLayout Grid.Column="0" Grid.Row="0">
                 <Label Margin="0,10,0,10" FontSize="Title" TextColor="White" HorizontalTextAlignment="Center" Text="{Binding Barcode}"/>
-                <customcontrols:IconTextLabel Icon="&#xf007;" Text="{Binding ScannedHaspel.Status}"/>
-                <customcontrols:IconTextLabel Icon="&#xf129;" Text="{Binding ScannedHaspel.UsedBy}"/>
+                <customcontrols:IconTextLabel Icon="&#xf007;" Text="{Binding ScannedHaspel.UsedBy}"/>
+                <customcontrols:IconTextLabel Icon="&#xf129;" Text="{Binding ScannedHaspel.StatusText}"/>
 
             </StackLayout>
             

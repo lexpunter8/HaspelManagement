@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XamarinViewModels;
 
 namespace AllinqApp
 {
@@ -26,14 +27,21 @@ namespace AllinqApp
 
         private void ViewCell_Tapped(object sender, EventArgs e)
         {
-            //if (lastCell != null)
-            //    lastCell.View.BackgroundColor = Color.Transparent;
-            //var viewCell = (ViewCell)sender;
-            //if (viewCell.View != null)
-            //{
-            //    viewCell.View.BackgroundColor = Color.Red;
-            //    lastCell = viewCell;
-            //}
+
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+
+            string result = await DisplayPromptAsync("Voeg team toe", "Name");
+            var datacontext = BindingContext as TeamsManagerViewModel;
+
+            if (string.IsNullOrWhiteSpace(result))
+            {
+                return;
+            }
+
+            datacontext.AddTeam(result);
         }
     }
 }

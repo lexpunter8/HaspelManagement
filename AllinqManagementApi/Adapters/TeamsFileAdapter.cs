@@ -9,7 +9,7 @@ namespace AllinqManagementApi.Adapters
     public class TeamsFileAdapter : IFileAdapter<string>
     {
 
-        private string myFile = Path.Combine(Environment.CurrentDirectory, "Teams.csv");
+        private string myFile = Path.Combine(Environment.CurrentDirectory, "C:\\AllinqHaspel\\Teams.csv");
         public string[] GetData()
         {
             try
@@ -18,7 +18,6 @@ namespace AllinqManagementApi.Adapters
                 {
                     using (StreamReader streamWriter = new StreamReader(fs))
                     {
-                        streamWriter.ReadLine();
                         List<string> teams = new List<string>();
                         string line;
                         while ((line = streamWriter.ReadLine()) != null)
@@ -40,6 +39,10 @@ namespace AllinqManagementApi.Adapters
             }
             catch (Exception e)
             {
+                if (!File.Exists(myFile))
+                {
+
+                }
                 return new string[0];
             }
         }
@@ -48,16 +51,11 @@ namespace AllinqManagementApi.Adapters
         {
             await Task.Run(() =>
             {
-                using (FileStream fs = File.OpenWrite(myFile))
+                using var fileStream = File.Open(myFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                using StreamWriter sw = new StreamWriter(fileStream);
+                foreach (string h in data)
                 {
-
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
-                        foreach (string h in data)
-                        {
-                            sw.WriteLine(h);
-                        }
-                    }
+                    sw.WriteLine(h);
                 }
             });
         }

@@ -11,7 +11,7 @@
             <RowDefinition Height="Auto"/>
             <!--<RowDefinition Height="56"/>-->
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" SeparatorColor="{DynamicResource blueBrush}" ItemTapped="ListView_ItemTapped"  RowHeight="65" ItemsSource="{Binding Path=Haspels}">
+        <ListView Grid.Row="0" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" SeparatorColor="{DynamicResource blueBrush}" ItemTapped="ListView_ItemTapped"  RowHeight="65" ItemsSource="{Binding Path=Haspels}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -34,7 +34,7 @@
                                     <Label Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" TextColor="White" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" Text="{Binding UsedBy}"/>
 
 
-                                    <Image Source="RedCircle.png" HeightRequest="20" WidthRequest="20" Grid.Column="3"
+                                    <Image HeightRequest="20" WidthRequest="20" Grid.Column="3"
                                            Grid.Row="0" Grid.RowSpan="2" BackgroundColor="{DynamicResource primaryLight}" >
                                         <Image.Triggers>
                                             <DataTrigger TargetType="Image" Binding="{Binding Status}" Value="1">

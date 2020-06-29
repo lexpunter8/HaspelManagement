@@ -9,7 +9,7 @@ namespace AllinqManagementApi.Adapters
 {
     public class CsvFileAdapter : IFileAdapter<Haspel>
     {
-        private string myFile = Path.Combine(Environment.CurrentDirectory, "Haspels.csv");
+        private string myFile = Path.Combine(Environment.CurrentDirectory, "C:\\AllinqHaspel\\Haspels.csv");
 
         public Haspel[] GetData()
         {
@@ -27,12 +27,13 @@ namespace AllinqManagementApi.Adapters
                             try
                             {
                                 var values = line.Split(',');
+                                var status = values[1].Split('-');
                                 haspels.Add(new Haspel
                                 {
                                     Barcode = values[0] ?? "",
-                                    UsedBy = values[1] ?? "",
-                                    Status = ConvertStringToStatus(values[2]),
-                                    Comment = values[3] ?? ""
+                                    UsedBy = status.Length > 1 ? status[1].Trim() : string.Empty,
+                                    Status = ConvertStringToStatus(status[0].Trim()),
+                                    Comment = values[2] ?? ""
                                 });
 
                             }
@@ -55,32 +56,31 @@ namespace AllinqManagementApi.Adapters
 
         private EHaspelStatus ConvertStringToStatus(string v)
         {
-            switch (v.ToLower())
+            if (EHaspelStatus.Empty.GetEnumDescription() == v)
             {
-                case "isused":
-                    return EHaspelStatus.IsUsed;
-                case "isnotused":
-                    return EHaspelStatus.Unkown;
-                default:
-                    return EHaspelStatus.Unkown;
+                return EHaspelStatus.Empty;
             }
+            if (EHaspelStatus.Full.GetEnumDescription() == v)
+            {
+                return EHaspelStatus.Full;
+            }
+            if (v.StartsWith(EHaspelStatus.IsUsed.GetEnumDescription()))
+            {
+                return EHaspelStatus.IsUsed;
+            }
+            return EHaspelStatus.Unkown;
         }
 
         public async Task WriteData(Haspel[] data)
         {
             await Task.Run(() =>
             {
-                using (FileStream fs = File.OpenWrite(myFile))
+                using var fileStream = File.Open(myFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                using StreamWriter sw = new StreamWriter(fileStream);
+                sw.WriteLine($"Barcode, Status, Opmerking");
+                foreach (Haspel h in data)
                 {
-
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
-                        sw.WriteLine($"Barcode,In gebruik door, In gebruik, Opmerking");
-                        foreach (Haspel h in data)
-                        {
-                            sw.WriteLine(h.ToCsvString());
-                        }
-                    }
+                    sw.WriteLine(h.ToCsvString());
                 }
             });
         }

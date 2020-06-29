@@ -33,7 +33,8 @@ namespace AllinqApp.Managers
         public bool IsConnected;
         public string BaseApiUrl => $"http://{myApiEndPoint.Address}:{myApiEndPoint.Port}";
 
-        public EventHandler<EventArgs> Initialized;
+        public EventHandler<EventArgs> Connected;
+        public EventHandler<EventArgs> LosedConnection;
 
         private void ReicevedCalBack(IAsyncResult result)
         {
@@ -53,7 +54,7 @@ namespace AllinqApp.Managers
                     myApiEndPoint = e;
                     myApiEndPoint.Port = myPortNumber;
                     IsConnected = true;
-                    Initialized?.Invoke(this, new EventArgs());
+                    Connected?.Invoke(this, new EventArgs());
                 }
             } catch (Exception e)
             {

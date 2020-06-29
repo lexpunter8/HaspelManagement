@@ -64,7 +64,13 @@ namespace Infrastructure.Managers
 
             if (!myParent.IsConnected)
             {
-                return new Haspel[0];
+                return new Haspel[]
+                {
+                    new Haspel
+                    {
+                        Barcode = "Kan niet met de server verbinden!"
+                    }
+                };
             }
             var httpClient = new HttpClient();
             try
@@ -79,6 +85,7 @@ namespace Infrastructure.Managers
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                myParent.LosedConnection?.Invoke(this, new EventArgs());
             }
             return null;
         }

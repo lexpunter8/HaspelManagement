@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AllinqApp.Managers;
@@ -24,11 +25,17 @@ namespace XamarinViewModels
             CompleteCommand = new Command(CompleteScan);
             StatusChangedCommand = new Command(ExecuteStatusChangedCommand);
 
-            UserOptions = new List<string>
-            {
-                "een","twee","drie"
-            };
+            myApiManager.Connected += (a,b) => SetTeams();
+
             myNavigationService = navigationService;
+        }
+
+        private async void SetTeams()
+        {
+            var team = await myApiManager.TeamApiManager.GetData();
+
+            UserOptions = team.ToList();
+            OnPropertyChanged(nameof(UserOptions));
         }
 
         public ICommand CancelCommand { get; set; }
@@ -49,6 +56,7 @@ namespace XamarinViewModels
         public void SetScanResult(Result result)
         {
             myCurrentResult = result;
+            SetTeams(); 
         }
 
         public async void HandleScanResult(Result result)
@@ -60,6 +68,7 @@ namespace XamarinViewModels
 
                 ScannedHaspel = await myApiManager.HaspelApiManager.GetHaspelByBarcode(result.Text);
                 OnPropertyChanged(nameof(ScannedHaspel));
+                OnPropertyChanged(nameof(ScannedHaspel.StatusText));
 
                 if (ScannedHaspel.Status == EHaspelStatus.IsUsed || ScannedHaspel.Status == EHaspelStatus.Unkown)
                 {

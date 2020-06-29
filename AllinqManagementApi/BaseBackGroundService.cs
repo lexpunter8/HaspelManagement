@@ -12,8 +12,7 @@ namespace AllinqManagementApi
     public abstract class BaseBackGroundService : IHostedService, IDisposable
     {
         private Task _executingTask;
-        private readonly CancellationTokenSource _stoppingCts =
-                                                       new CancellationTokenSource();
+        private readonly CancellationTokenSource _stoppingCts = new CancellationTokenSource();
 
         protected abstract Task ExecuteAsync(CancellationToken stoppingToken);
 

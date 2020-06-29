@@ -36,7 +36,7 @@ namespace AllinqApp
             }
             if(s.GetType() == typeof(TeamsPage))
             {
-                dataContext.TabChanged("Scan");
+                dataContext.TabChanged("Teams");
             }
         }
     }

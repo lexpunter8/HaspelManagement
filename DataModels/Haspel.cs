@@ -26,6 +26,8 @@ namespace DataModels
             get { return myStatus; }
             set { myStatus = value; OnPropertyChanged(nameof(Status)); }
         }
+
+        public string StatusText => Status.GetEnumDescription();
         public string UsedBy
         {
             get { return myUsedBy; }
@@ -39,7 +41,11 @@ namespace DataModels
 
         public string ToCsvString()
         {
-            return $"{Barcode},{UsedBy},{Status},{Comment}";
+            if (Status == EHaspelStatus.IsUsed)
+            {
+                return $"{Barcode},{Status.GetEnumDescription()} - {UsedBy},{Comment}";
+            }
+            return $"{Barcode},{Status.GetEnumDescription()},{Comment}";
         }
     }
 }

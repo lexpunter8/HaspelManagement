@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AllinqManagementApi.Adapters;
 using AllinqManagementApi.Interfaces;
 using AllinqManagementApi.Services;
 using DataModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +25,8 @@ namespace AllinqManagementApi
         {
             services.AddControllers();
 
+            services.AddLogging(LoggerBuilder);
+
             services.AddSingleton<IHostedService, BroadCastServiceWorker>();
 
             services.AddSingleton<IFileService<Haspel>, CsvFileService>();
@@ -38,6 +34,11 @@ namespace AllinqManagementApi
 
             services.AddSingleton<IFileAdapter<Haspel>, CsvFileAdapter>();
             services.AddSingleton<IFileAdapter<string>, TeamsFileAdapter>();
+        }
+
+        private void LoggerBuilder(ILoggingBuilder builder)
+        {
+            builder.AddLog4Net();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +50,6 @@ namespace AllinqManagementApi
             }
 
             //app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();

@@ -12,8 +12,8 @@
     Title="{Binding TabBarTitle}"
     UnselectedTabColor="White" x:Name="tabbedView"
     SelectedTabColor="#4f86c9" CurrentPageChanged="TabbedPage_CurrentPageChanged">
-    <local:MainView Title="Details" IconImageSource="infoicon.png" BindingContext="{Binding MainViewModel}"/>
     <local:PartialScannerView BindingContext="{Binding ScannerViewModel}" Title="Scan" IconImageSource="unnamed.png"/>
+    <local:MainView Title="Details" IconImageSource="infoicon.png" BindingContext="{Binding MainViewModel}"/>
     <local:TeamsPage BindingContext="{Binding TeamsViewModel}" Title="Teams" IconImageSource="unnamed.png"/>
 
     <TabbedPage.Resources>
